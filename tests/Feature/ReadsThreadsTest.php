@@ -31,7 +31,7 @@ class ReadsThreadsTest extends TestCase
     /** @test */
     public function a_user_can_view_a_single_thread()
     {
-        $response = $this->get('/threads/' . $this->thread->id)->assertSee($this->thread->title);
+        $response = $this->get($this->thread->path())->assertSee($this->thread->title);
     }
 
     /** @test */
@@ -44,7 +44,7 @@ class ReadsThreadsTest extends TestCase
          * THEN we should see the replies
          */
         $reply = factory(Reply::class)->create(['thread_id' => $this->thread->id]);
-        $this->get('/threads/' . $this->thread->id)->assertSee($reply->body);
+        $this->get($this->thread->path())->assertSee($reply->body);
 
     }
 }
