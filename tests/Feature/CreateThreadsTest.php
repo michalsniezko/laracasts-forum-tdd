@@ -16,11 +16,11 @@ class CreateThreadsTest extends TestCase
     function an_authenticated_user_can_create_form_threads()
     {
         // Given we have a signed in user
-        $this->actingAs(factory(User::class)->create());
+        $this->signIn();
 
         // When we hit the endpoint to create a new thread
         /** @var Thread $thread */
-        $thread = factory(Thread::class)->make(); // or raw()
+        $thread = make(Thread::class);
         $this->post('/threads', $thread->toArray());
 
         // Then, when we visit the thread page
@@ -37,7 +37,8 @@ class CreateThreadsTest extends TestCase
     {
         $this->expectException(AuthenticationException::class);
 
-        $rawThread = factory(Thread::class)->raw();
-        $this->post('/threads', $rawThread);
+        /** @var Thread $thread */
+        $thread = make(Thread::class);
+        $this->post('/threads', $thread->toArray());
     }
 }
