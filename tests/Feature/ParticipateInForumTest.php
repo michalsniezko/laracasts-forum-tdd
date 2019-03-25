@@ -6,9 +6,7 @@ use App\Reply;
 use App\Thread;
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ParticipateInForumTest extends TestCase
 {
@@ -30,6 +28,4 @@ class ParticipateInForumTest extends TestCase
         // THEN their reply should be visible on the page
         $this->get($thread->path())->assertSee($reply->body);
     }
-
-
 }
