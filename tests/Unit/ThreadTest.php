@@ -43,4 +43,25 @@ class ThreadTest extends TestCase
 
         $this->assertCount(1, $this->thread->replies);
     }
+
+    /** @test */
+    public function a_thread_belongs_to_a_channel()
+    {
+        // Given we have a thread:
+        $thread = create(Thread::class);
+
+        // And I get the channel associated with the thread,
+        // Then this channel is instance of Channel class:
+        $this->assertInstanceOf('App\Channel', $thread->channel);
+    }
+
+    /** @test */
+    function a_thread_can_make_a_string_path()
+    {
+        // Given we have a thread:
+        $thread = create(Thread::class);
+
+        // Then the threads path should be equal to path with slug of channel:
+        $this->assertEquals('/threads/' . $thread->channel->slug . '/' . $thread->id, $thread->path());
+    }
 }

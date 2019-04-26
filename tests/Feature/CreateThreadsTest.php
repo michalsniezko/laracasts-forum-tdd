@@ -13,14 +13,14 @@ class CreateThreadsTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    function an_authenticated_user_can_create_form_threads()
+    function an_authenticated_user_can_create_forum_threads()
     {
         // Given we have a signed in user
         $this->signIn();
 
         // When we hit the endpoint to create a new thread
         /** @var Thread $thread */
-        $thread = make(Thread::class);
+        $thread = create(Thread::class); //must be created to persist ID
         $this->post('/threads', $thread->toArray());
 
         // Then, when we visit the thread page
@@ -35,19 +35,17 @@ class CreateThreadsTest extends TestCase
     /** @test */
     function guests_may_not_create_threads()
     {
-        $this->expectException(AuthenticationException::class);
-
-        /** @var Thread $thread */
-        $thread = make(Thread::class);
-        $this->post('/threads', $thread->toArray());
-    }
-
-    /** @test */
-    function guests_cannot_see_the_create_thread_page()
-    {
+        // Given exception handling is on:
         $this->withExceptionHandling();
 
+        // When I try to visit thread creation page without being authenticated:
         $this->get('threads/create')
+            // Then I get redirected to login page:
+            ->assertRedirect('/login');
+
+        // When I try to manually post a thread:
+        $this->post('threads')
+            // Then I get redirected to login page:
             ->assertRedirect('/login');
     }
 }
