@@ -59,6 +59,7 @@ class ThreadTest extends TestCase
     function a_thread_can_make_a_string_path()
     {
         // Given we have a thread:
+        /** @var Thread $thread */
         $thread = create(Thread::class);
 
         // Then the threads path should be equal to path with slug of channel:
